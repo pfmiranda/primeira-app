@@ -4,8 +4,7 @@ import AppButton from "../../components/AppButton/appButton";
 import { useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/types";
-import App from "../../../App";
-import TasksScreen from "../tasks/tasksScreen";
+import Header from "../../components/header/header";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "Home">;
 
@@ -17,6 +16,7 @@ const HomeScreen = ({ navigation, route }: NavigationProps) => {
 
   return (
     <View style={styles.mainContainer}>
+      <Header title="Primeira App"></Header>
       <Text style={{ color: "white", fontSize: 30 }}>
         Olá <Text style={{ fontWeight: "bold" }}>{name}</Text>!
       </Text>

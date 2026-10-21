@@ -1,20 +1,55 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 
 type HeaderProps = {
   title: string;
   subtitle?: string;
+  goBack?: () => void;
+  right?: React.ReactNode;
 };
+
+const Header = ({ title, subtitle, goBack, right }: HeaderProps) => {
+  return (
+    <View style={styles.container}>
+      <View style={styles.row}>
+        <View style={styles.side}>
+          {goBack && (
+            <TouchableOpacity onPress={goBack}>
+              <Image
+                resizeMode="contain"
+                style={{ width: 20, height: 20 }}
+                source={require("../../../assets/return.png")}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+        <Text style={styles.title} numberOfLines={1}>
+          {title}
+        </Text>
+        <View style={[styles.side, styles.sideRight]}>{right}</View>
+      </View>
+      {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+    </View>
+  );
+};
+
+export default Header;
 
 const styles = StyleSheet.create({
   container: {
+    width: "100%",
+    paddingTop: 40,
+    paddingHorizontal: 12,
+    paddingBottom: 8,
+  },
+  row: {
+    flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
   },
   title: {
+    flex: 1,
     color: "#000000",
-    fontSize: 30,
-    fontWeight: "bold",
+    fontSize: 22,
     textAlign: "center",
   },
   subtitle: {
@@ -22,17 +57,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
   },
+  side: {
+    width: 45,
+    height: 45,
+    padding: 10,
+    borderRadius: 15,
+    alignItems: "flex-start",
+    backgroundColor: "white",
+  },
+
+  sideRight: {
+    alignItems: "flex-end",
+  },
 });
-
-const Header = ({ title, subtitle }: HeaderProps) => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.subtitle}>
-        {subtitle ? subtitle : "Sem subtítulo definido"}
-      </Text>
-    </View>
-  );
-};
-
-export default Header;

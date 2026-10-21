@@ -1,14 +1,6 @@
-import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Checkbox from "expo-checkbox";
-
-type TaskCardProps = {
-  id: string;
-  title: string;
-  isComplete: boolean;
-  onToggle?: () => void;
-  onDelete?: () => void;
-};
+import { TaskCardProps } from "./types";
 
 const TaskCard = ({
   id,
@@ -16,9 +8,10 @@ const TaskCard = ({
   isComplete,
   onToggle,
   onDelete,
+  onPress,
 }: TaskCardProps) => {
   return (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={onPress}>
       <View style={{ flex: 1 }}>
         <Text style={[styles.title, isComplete && styles.completedTask]}>
           {title}
@@ -34,7 +27,7 @@ const TaskCard = ({
           <Text style={styles.deleteText}>Eliminar</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

@@ -5,15 +5,9 @@ import TaskCard from "../../components/Card/TaskCard";
 import Header from "../../components/header/header";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/types";
+import { Task, Filter } from "./types";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "Tasks">;
-
-//definição do tipo Task
-type Task = {
-  id: string;
-  title: string;
-  isCompleted: boolean;
-};
 
 // inicialização de um array de tasks
 const initalTasks = [
@@ -36,8 +30,6 @@ const initalTasks = [
   },
 ] as Task[]; // Alternativa Task[]
 
-type Filter = "All" | "Done" | "Pending";
-
 const TasksScreen = ({ navigation, route }: NavigationProps) => {
   const [newTask, setNewTask] = useState("");
   const [tasks, setTasks] = useState(initalTasks as Task[]); //Alternativa Array<Task>
@@ -57,10 +49,15 @@ const TasksScreen = ({ navigation, route }: NavigationProps) => {
   return (
     <View style={styles.mainContainer}>
       {/*  <ScrollView showsVerticalScrollIndicator={true}>*/}
-      <Header title="Primeira App" subtitle="Bem-vindo!" />
+      <Header
+        title="Primeira App"
+        subtitle="Bem-vindo!"
+        goBack={() => navigation.goBack()}
+      />
 
       <View
         style={{
+          marginTop: 100,
           flexDirection: "row",
         }}>
         <AppButton title="Todas" onPress={() => setCardFilter("All")} />
@@ -103,6 +100,7 @@ const TasksScreen = ({ navigation, route }: NavigationProps) => {
             id={task.id}
             title={task.title}
             isComplete={task.isCompleted}
+            onPress={() => navigation.navigate("TaskDetail", { task: task })}
             onDelete={() => {
               setTasks(tasks.filter((t) => t.id !== task.id));
             }}
@@ -128,6 +126,7 @@ const TasksScreen = ({ navigation, route }: NavigationProps) => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
+    gap: 50,
     backgroundColor: "#d7f2f8",
     alignItems: "center",
     justifyContent: "center",
