@@ -1,26 +1,13 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import Checkbox from "expo-checkbox";
-import { TaskCardProps } from "./types";
+import { Checkbox } from "expo-checkbox";
+import { type TaskCardProps } from "./types";
 
-const TaskCard = ({
-  id,
-  title,
-  isComplete,
-  onToggle,
-  onDelete,
-  onPress,
-}: TaskCardProps) => {
+const TaskCard = ({ id, title, isComplete, onToggle, onDelete, onPress }: TaskCardProps) => {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
-      <View style={{ flex: 1 }}>
-        <Text style={[styles.title, isComplete && styles.completedTask]}>
-          {title}
-        </Text>
-        <Checkbox
-          style={styles.checkbox}
-          value={isComplete}
-          onValueChange={onToggle}
-        />
+      <View style={styles.mainView}>
+        <Text style={[styles.title, isComplete && styles.completedTask]}>{title}</Text>
+        <Checkbox style={styles.checkbox} value={isComplete} onValueChange={onToggle} />
       </View>
       <View>
         <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
@@ -41,24 +28,15 @@ const styles = StyleSheet.create({
     gap: 5,
     flexDirection: "row",
   },
-
-  id: {
-    color: "#ffffff",
-    fontSize: 10,
-    fontWeight: "bold",
-    textAlign: "right",
+  mainView: {
+    flex: 1,
   },
+
   title: {
     color: "#ffffff",
     fontSize: 18,
     marginTop: 2,
     textAlign: "left",
-  },
-  isComplete: {
-    color: "#ffffff",
-    fontSize: 14,
-    marginTop: 2,
-    textAlign: "center",
   },
   completedTask: {
     textDecorationLine: "line-through",

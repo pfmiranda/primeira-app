@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { StyleSheet, View, TextInput, FlatList } from "react-native";
 import AppButton from "../../components/AppButton/appButton";
 import TaskCard from "../../components/Card/TaskCard";
 import Header from "../../components/header/header";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../navigation/types";
-import { Task, Filter } from "./types";
+import { type NativeStackScreenProps } from "@react-navigation/native-stack";
+import { type RootStackParamList } from "../../navigation/types";
+import { type Task, type Filter } from "./types";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "Tasks">;
 
@@ -55,22 +55,12 @@ const TasksScreen = ({ navigation, route }: NavigationProps) => {
         goBack={() => navigation.goBack()}
       />
 
-      <View
-        style={{
-          marginTop: 100,
-          flexDirection: "row",
-        }}>
+      <View style={styles.filterView}>
         <AppButton title="Todas" onPress={() => setCardFilter("All")} />
         <AppButton title="Pendentes" onPress={() => setCardFilter("Pending")} />
         <AppButton title="Concluídas" onPress={() => setCardFilter("Done")} />
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-        }}>
+      <View style={styles.newTaskView}>
         <TextInput
           value={newTask}
           onChangeText={(text) => setNewTask(text)}
@@ -114,7 +104,7 @@ const TasksScreen = ({ navigation, route }: NavigationProps) => {
           />
         )}
       />
-      <View style={{ flexDirection: "row", margin: 10, gap: 10 }}>
+      <View style={styles.buttonsView}>
         <AppButton title="Voltar" onPress={() => navigation.goBack()} />
         <AppButton title="Home" onPress={() => navigation.popToTop()} />
       </View>
@@ -130,6 +120,22 @@ const styles = StyleSheet.create({
     backgroundColor: "#d7f2f8",
     alignItems: "center",
     justifyContent: "center",
+  },
+  filterView: {
+    marginTop: 100,
+    flexDirection: "row",
+  },
+  newTaskView: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+  },
+
+  buttonsView: {
+    flexDirection: "row",
+    margin: 10,
+    gap: 10,
   },
 });
 

@@ -12,12 +12,12 @@ const Header = ({ title, subtitle, goBack, right }: HeaderProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <View style={styles.side}>
+        <View style={[styles.side, goBack && styles.sideFilled]}>
           {goBack && (
             <TouchableOpacity onPress={goBack}>
               <Image
                 resizeMode="contain"
-                style={{ width: 20, height: 20 }}
+                style={styles.icon}
                 source={require("../../../assets/return.png")}
               />
             </TouchableOpacity>
@@ -26,7 +26,7 @@ const Header = ({ title, subtitle, goBack, right }: HeaderProps) => {
         <Text style={styles.title} numberOfLines={1}>
           {title}
         </Text>
-        <View style={[styles.side, styles.sideRight]}>{right}</View>
+        <View style={[styles.side, styles.sideRight, !!right && styles.sideFilled]}>{right}</View>
       </View>
       {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
     </View>
@@ -61,12 +61,18 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     padding: 10,
-    borderRadius: 15,
     alignItems: "flex-start",
+  },
+  sideFilled: {
+    borderRadius: 15,
     backgroundColor: "white",
   },
 
   sideRight: {
     alignItems: "flex-end",
+  },
+  icon: {
+    width: 20,
+    height: 20,
   },
 });
