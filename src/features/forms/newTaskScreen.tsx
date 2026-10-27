@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
+  Keyboard,
 } from "react-native";
 import Header from "../../components/header/header";
 import { type NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -22,6 +23,11 @@ const NewTaskScreen = ({ navigation, route }: NavigationProps) => {
   const [isTaskComplete, setTaskComplete] = useState(false);
   const [taskOwnerEmail, setTaskOwnerEmail] = useState("");
 
+  const save = () => {
+    Keyboard.dismiss();
+    navigation.goBack();
+  };
+
   const invalidTaskName = taskName.trim().length < 3;
   const invalidTaskDescription = taskDescription.trim().length < 20;
   const invalidTaskOwnerEmail = !(
@@ -34,10 +40,7 @@ const NewTaskScreen = ({ navigation, route }: NavigationProps) => {
       style={styles.main}
       behavior={Platform.OS === "ios" ? "padding" : undefined}>
       <View style={styles.headerArea}>
-        <Header
-          title="Nova Tarefa"
-          goBack={() => navigation.navigate("Home")}
-        />
+        <Header title="Nova Tarefa" goBack={() => navigation.goBack()} />
       </View>
       <ScrollView
         style={styles.scroll}
@@ -55,7 +58,7 @@ const NewTaskScreen = ({ navigation, route }: NavigationProps) => {
               accessibilityLabel="Nome da tarefa"
             />
             <View style={styles.errorSlot}>
-              {invalidTaskName ? (
+              {invalidTaskName && taskName.length > 0 ? (
                 <Text style={styles.textInputError}>
                   O nome deve conter pelo menos 3 caracteres!
                 </Text>
@@ -111,11 +114,9 @@ const NewTaskScreen = ({ navigation, route }: NavigationProps) => {
             <Switch value={isTaskComplete} onValueChange={setTaskComplete} />
           </View>
         </View>
-        <View>
-          <AppButton
-            title="Guarda nova tarefa"
-            onPress={() => navigation.navigate("Home")}
-          />
+        <View style={styles.buttonArea}>
+          <AppButton title="Cancelar" onPress={save} />
+          <AppButton title="Guarda tarefa" onPress={save} />
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -185,6 +186,14 @@ const styles = StyleSheet.create({
   termLabel: {
     flex: 1,
     marginBottom: 0,
+  },
+  buttonArea: {
+    width: "100%",
+    maxWidth: 480,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    gap: 10,
+    marginTop: 10,
   },
 });
 
