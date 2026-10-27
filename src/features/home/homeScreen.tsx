@@ -16,47 +16,58 @@ const HomeScreen = ({ navigation, route }: NavigationProps) => {
 
   return (
     <View style={styles.mainContainer}>
-      <Header title="Primeira App" />
-      <Text style={styles.presentation}>
-        Olá <Text style={styles.name}>{name}</Text>!
-      </Text>
-      <Text numberOfLines={5} style={styles.description}>
-        Este é o primeiro aplicativo desenvolvido em React Native com TypeScript
-        por {name}.
-      </Text>
       <StatusBar />
-      {/** Imagem Remote  */}
-      <Image
-        resizeMode="contain"
-        style={styles.smallImage}
-        source={{
-          uri: "https://upload.wikimedia.org/wikipedia/pt/3/3e/Sporting_Clube_de_Portugal.png?utm_source=pt.wikipedia.org&utm_campaign=index&utm_content=original",
-        }}
-      />
-      <Image
-        resizeMode="contain"
-        style={styles.bigImage}
-        source={require("../../../assets/cat.jpeg")}
-      />
-      <Text>{counter}</Text>
-      <AppButton title="Clique Aqui" onPress={() => setCounter(counter + 1)} />
+      <View style={styles.content}>
+        <Header title="Primeira App" />
+        <Text style={styles.presentation}>
+          Olá <Text style={styles.name}>{name}</Text>!
+        </Text>
+        <Text style={styles.description}>
+          Este é o primeiro aplicativo desenvolvido em React Native com
+          TypeScript por {name}.
+        </Text>
+        {/** Imagem Remote  */}
+        <Image
+          resizeMode="contain"
+          style={styles.smallImage}
+          source={{
+            uri: "https://upload.wikimedia.org/wikipedia/pt/3/3e/Sporting_Clube_de_Portugal.png?utm_source=pt.wikipedia.org&utm_campaign=index&utm_content=original",
+          }}
+        />
+        <Image
+          resizeMode="contain"
+          style={styles.bigImage}
+          source={require("../../../assets/cat.jpeg")}
+        />
+        <Text style={styles.counter}>{counter}</Text>
+        <AppButton
+          title="Clique Aqui"
+          onPress={() => setCounter(counter + 1)}
+        />
 
-      <AppButton
-        title="Go To Task Screen"
-        onPress={() => navigation.navigate("Tasks")}
-      />
+        <AppButton
+          title="Ver Tarefas"
+          onPress={() => navigation.navigate("Tasks")}
+        />
+      </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: "#7dd6ea",
+    backgroundColor: "#d7f2f8",
     alignItems: "center",
     justifyContent: "center",
   },
+  content: {
+    width: "100%",
+    maxWidth: 512,
+    alignItems: "center",
+    gap: 10,
+  },
   presentation: {
-    color: "white",
+    color: "midnightblue",
     fontSize: 30,
   },
   name: {
@@ -64,17 +75,27 @@ const styles = StyleSheet.create({
   },
 
   description: {
-    color: "#bcbbc0",
+    color: "midnightblue",
+    fontSize: 16,
+    textAlign: "center",
   },
 
   smallImage: {
-    width: 150,
-    height: 150,
+    width: "100%",
+    maxWidth: 150,
+    aspectRatio: 1,
   },
 
   bigImage: {
-    width: 400,
-    height: 150,
+    width: "100%",
+    maxWidth: 400,
+    aspectRatio: 400 / 150,
+  },
+
+  counter: {
+    color: "midnightblue",
+    fontSize: 24,
+    fontWeight: "bold",
   },
 });
 

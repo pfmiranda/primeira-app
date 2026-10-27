@@ -23,10 +23,12 @@ const Header = ({ title, subtitle, goBack, right }: HeaderProps) => {
             </TouchableOpacity>
           )}
         </View>
-        <Text style={styles.title} numberOfLines={1}>
-          {title}
-        </Text>
-        <View style={[styles.side, styles.sideRight, !!right && styles.sideFilled]}>{right}</View>
+        <View style={styles.titleBox}>
+          <Text style={styles.title} numberOfLines={1}>
+            {title}
+          </Text>
+        </View>
+        <View style={[styles.side, !!right && styles.sideFilled]}>{right}</View>
       </View>
       {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
     </View>
@@ -34,6 +36,10 @@ const Header = ({ title, subtitle, goBack, right }: HeaderProps) => {
 };
 
 export default Header;
+
+const BOX_SIZE = 45;
+const BOX_RADIUS = 15;
+const BOX_SHADOW = "0px 2px 8px rgba(0, 0, 0, 0.08)";
 
 const styles = StyleSheet.create({
   container: {
@@ -45,12 +51,25 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
+  },
+  titleBox: {
+    flex: 1,
+    maxWidth: 320,
+    height: BOX_SIZE,
+    marginHorizontal: 8,
+    paddingHorizontal: 12,
+    justifyContent: "center",
+    borderRadius: BOX_RADIUS,
+    backgroundColor: "whitesmoke",
+    boxShadow: BOX_SHADOW,
   },
   title: {
-    flex: 1,
-    color: "#000000",
-    fontSize: 22,
+    color: "midnightblue",
+    fontSize: 24,
+    fontWeight: "600",
     textAlign: "center",
+    fontFamily: "Montserrat",
   },
   subtitle: {
     color: "#525252",
@@ -58,19 +77,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   side: {
-    width: 45,
-    height: 45,
-    padding: 10,
-    alignItems: "flex-start",
+    width: BOX_SIZE,
+    height: BOX_SIZE,
+    alignItems: "center",
+    justifyContent: "center",
   },
   sideFilled: {
-    borderRadius: 15,
-    backgroundColor: "white",
+    borderRadius: BOX_RADIUS,
+    backgroundColor: "whitesmoke",
+    boxShadow: BOX_SHADOW,
   },
 
-  sideRight: {
-    alignItems: "flex-end",
-  },
   icon: {
     width: 20,
     height: 20,

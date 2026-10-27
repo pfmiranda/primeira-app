@@ -2,56 +2,84 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Checkbox } from "expo-checkbox";
 import { type TaskCardProps } from "./types";
 
-const TaskCard = ({ id, title, isComplete, onToggle, onDelete, onPress }: TaskCardProps) => {
+const TaskCard = ({
+  id,
+  title,
+  isComplete,
+  onToggle,
+  onDelete,
+  onPress,
+}: TaskCardProps) => {
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress}>
-      <View style={styles.mainView}>
-        <Text style={[styles.title, isComplete && styles.completedTask]}>{title}</Text>
-        <Checkbox style={styles.checkbox} value={isComplete} onValueChange={onToggle} />
-      </View>
-      <View>
-        <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
-          <Text style={styles.deleteText}>Eliminar</Text>
-        </TouchableOpacity>
-      </View>
-    </TouchableOpacity>
+    <View style={styles.mainView}>
+      <TouchableOpacity style={styles.Taskcard} onPress={onPress}>
+        <Text
+          numberOfLines={2}
+          ellipsizeMode="tail"
+          style={[styles.title, isComplete && styles.completedTask]}>
+          {title}
+        </Text>
+        <Checkbox
+          style={styles.checkbox}
+          value={isComplete}
+          onValueChange={onToggle}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
+        <Text numberOfLines={2} style={styles.deleteText}>
+          Eliminar
+        </Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  card: {
-    width: "100%",
-    backgroundColor: "#6060aa",
+  Taskcard: {
+    flex: 1,
+    minWidth: 150,
+    backgroundColor: "royalblue",
     borderRadius: 25,
     padding: 10,
     marginVertical: 5,
     gap: 5,
     flexDirection: "row",
+    borderWidth: 1,
+    borderColor: "teal",
+    shadowColor: "teal",
+    shadowRadius: 4,
   },
   mainView: {
-    flex: 1,
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
   },
 
   title: {
-    color: "#ffffff",
+    flex: 1,
+    color: "oldlace",
     fontSize: 18,
-    marginTop: 2,
     textAlign: "left",
+    fontFamily: "Montserrat",
   },
   completedTask: {
     textDecorationLine: "line-through",
   },
   deleteButton: {
-    flex: 1,
+    marginLeft: 10,
     justifyContent: "center",
+    alignItems: "flex-end",
     borderWidth: 1,
-    borderColor: "red",
-    borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
+    borderColor: "crimson",
+    borderRadius: 25,
+    padding: 10,
+    backgroundColor: "crimson",
   },
   deleteText: {
-    color: "red",
+    color: "whitesmoke",
+    fontSize: 18,
+    textAlign: "center",
+    fontFamily: "Montserrat",
   },
   checkbox: {
     alignSelf: "center",

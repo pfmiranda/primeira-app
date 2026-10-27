@@ -14,18 +14,27 @@ const initalTasks = [
   {
     id: "1",
     title: "Arranjar fechadura da porta",
+    description:
+      "Necessário reajustar dimensões de entrada de trinco para que porta feche corretamente",
+    ownerEmail: "paulo.miranda@gmail.com",
     isCompleted: false,
   },
 
   {
     id: "2",
     title: "Reconfigurar home network",
+    description:
+      "Redesenhar toda a rede interna, garantindo boa perfomance em todos os locais.",
+    ownerEmail: "john.doe@gmail.com",
     isCompleted: false,
   },
 
   {
     id: "3",
     title: "Trocar puxadores do armário",
+    description:
+      "Necessário trocar puxadores antigos por novos para bater certo com os existentes.",
+    ownerEmail: "john.doe@gmail.com",
     isCompleted: true,
   },
 ] as Task[]; // Alternativa Task[]
@@ -49,11 +58,13 @@ const TasksScreen = ({ navigation, route }: NavigationProps) => {
   return (
     <View style={styles.mainContainer}>
       {/*  <ScrollView showsVerticalScrollIndicator={true}>*/}
-      <Header
-        title="Primeira App"
-        subtitle="Bem-vindo!"
-        goBack={() => navigation.goBack()}
-      />
+      <View style={styles.headerArea}>
+        <Header
+          title="Primeira App"
+          subtitle="Bem-vindo!"
+          goBack={() => navigation.goBack()}
+        />
+      </View>
 
       <View style={styles.filterView}>
         <AppButton title="Todas" onPress={() => setCardFilter("All")} />
@@ -62,6 +73,7 @@ const TasksScreen = ({ navigation, route }: NavigationProps) => {
       </View>
       <View style={styles.newTaskView}>
         <TextInput
+          style={styles.newTaskInput}
           value={newTask}
           onChangeText={(text) => setNewTask(text)}
           placeholder="Digite o título da tarefa"
@@ -82,6 +94,8 @@ const TasksScreen = ({ navigation, route }: NavigationProps) => {
         />
       </View>
       <FlatList
+        style={styles.list}
+        contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
         data={visibleTasks()}
         keyExtractor={(task) => task.id}
@@ -116,20 +130,52 @@ const TasksScreen = ({ navigation, route }: NavigationProps) => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    gap: 50,
+    gap: 10,
     backgroundColor: "#d7f2f8",
     alignItems: "center",
-    justifyContent: "center",
   },
   filterView: {
-    marginTop: 100,
     flexDirection: "row",
+    width: "100%",
+    maxWidth: 512,
+    alignSelf: "center",
+    justifyContent: "center",
+    gap: 10,
   },
   newTaskView: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
+    maxWidth: 512,
+    alignSelf: "center",
+    gap: 10,
+  },
+  newTaskInput: {
+    flex: 1,
+    backgroundColor: "white",
+    borderWidth: 1,
+    borderColor: "grey",
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    marginTop: 10,
+    fontSize: 16,
+  },
+
+  headerArea: {
+    width: "100%",
+    maxWidth: 512,
+    alignSelf: "center",
+  },
+  list: {
+    flex: 1,
+    width: "100%",
+    maxWidth: 512,
+    alignSelf: "center",
+  },
+  listContent: {
+    paddingHorizontal: 12,
   },
 
   buttonsView: {

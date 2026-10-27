@@ -8,7 +8,10 @@ type AppButtonProps = {
 const AppButton = ({ title, onPress }: AppButtonProps) => {
   return (
     //<Button title='Clique Aqui'/>
-    <TouchableOpacity activeOpacity={0.8} style={styles.buttonStyle} onPress={onPress}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      style={styles.buttonStyle}
+      onPress={onPress}>
       <Text style={styles.buttonTitle}>{title}</Text>
     </TouchableOpacity>
   );
@@ -18,7 +21,7 @@ export default AppButton;
 
 const styles = StyleSheet.create({
   buttonStyle: {
-    backgroundColor: "#618ae8",
+    backgroundColor: "midnightblue",
     padding: 10,
     borderRadius: 10,
     marginTop: 10,
@@ -26,8 +29,8 @@ const styles = StyleSheet.create({
   },
   buttonTitle: {
     fontSize: 20,
-    fontFamily: "Arial",
+    fontFamily: "Montserrat",
     fontWeight: "bold",
-    color: "white",
+    color: "oldlace",
   },
 });
