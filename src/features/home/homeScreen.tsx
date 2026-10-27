@@ -5,7 +5,7 @@ import { useState } from "react";
 import { type NativeStackScreenProps } from "@react-navigation/native-stack";
 import { type RootStackParamList } from "../../navigation/types";
 import Header from "../../components/header/header";
-import Ionicons from "@expo/vector-icons/Ionicons";
+//import Ionicons from "@expo/vector-icons/Ionicons";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "Home">;
 

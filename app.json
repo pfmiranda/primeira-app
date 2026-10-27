@@ -1,4 +1,4 @@
-nps{
+{
   "expo": {
     "name": "primeira-app",
     "slug": "primeira-app",
@@ -21,8 +21,6 @@ nps{
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      "expo-status-bar"
-    ]
+    "plugins": ["expo-status-bar"]
   }
 }
