@@ -5,13 +5,14 @@ import HomeScreen from "./src/features/home/homeScreen";
 import TasksScreen from "./src/features/tasks/tasksScreen";
 import TaskDetailScreen from "./src/features/tasksDetail/taskDetailScreen";
 import NewTaskScreen from "./src/features/forms/newTaskScreen";
+import ProfileScreen from "./src/features/profile/profileScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="NewTask">
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
           name="Home"
           component={HomeScreen}
@@ -30,6 +31,11 @@ export default function App() {
         <Stack.Screen
           name="NewTask"
           component={NewTaskScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={ProfileScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

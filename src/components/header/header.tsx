@@ -1,14 +1,36 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Lucide } from "@react-native-vector-icons/lucide";
+import { type RootStackParamList } from "../../navigation/types";
 
 type HeaderProps = {
   title: string;
   subtitle?: string;
   goBack?: () => void;
   right?: React.ReactNode;
+  showProfile?: boolean;
 };
 
-const Header = ({ title, subtitle, goBack, right }: HeaderProps) => {
+const Header = ({
+  title,
+  subtitle,
+  goBack,
+  right,
+  showProfile = true,
+}: HeaderProps) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const rightContent =
+    right ??
+    (showProfile && (
+      <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+        <Lucide name="user" size={24} color="midnightblue" />
+      </TouchableOpacity>
+    ));
+
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -28,7 +50,9 @@ const Header = ({ title, subtitle, goBack, right }: HeaderProps) => {
             {title}
           </Text>
         </View>
-        <View style={[styles.side, !!right && styles.sideFilled]}>{right}</View>
+        <View style={[styles.side, !!rightContent && styles.sideFilled]}>
+          {rightContent}
+        </View>
       </View>
       {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
     </View>
@@ -44,7 +68,8 @@ const BOX_SHADOW = "0px 2px 8px rgba(0, 0, 0, 0.08)";
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    paddingTop: 40,
+    marginTop: 10,
+    paddingTop: 10,
     paddingHorizontal: 12,
     paddingBottom: 8,
   },
@@ -54,8 +79,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   titleBox: {
-    flex: 1,
-    maxWidth: 320,
+    width: 200,
     height: BOX_SIZE,
     marginHorizontal: 8,
     paddingHorizontal: 12,
@@ -66,6 +90,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "midnightblue",
+
     fontSize: 24,
     fontWeight: "600",
     textAlign: "center",

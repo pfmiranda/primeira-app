@@ -1,11 +1,11 @@
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import AppButton from "../../components/AppButton/appButton";
 import { useState } from "react";
 import { type NativeStackScreenProps } from "@react-navigation/native-stack";
 import { type RootStackParamList } from "../../navigation/types";
 import Header from "../../components/header/header";
-//import Ionicons from "@expo/vector-icons/Ionicons";
+//import { Lucide } from "@react-native-vector-icons/lucide";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "Home">;
 
@@ -18,7 +18,10 @@ const HomeScreen = ({ navigation, route }: NavigationProps) => {
   return (
     <View style={styles.mainContainer}>
       <StatusBar />
-      <View style={styles.content}>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}>
         <Header title="Primeira App" />
         <Text style={styles.presentation}>
           Olá <Text style={styles.name}>{name}</Text>!
@@ -50,7 +53,11 @@ const HomeScreen = ({ navigation, route }: NavigationProps) => {
           title="Ver Tarefas"
           onPress={() => navigation.navigate("Tasks")}
         />
-      </View>
+        <AppButton
+          title="Perfil"
+          onPress={() => navigation.navigate("Profile")}
+        />
+      </ScrollView>
     </View>
   );
 };
@@ -58,14 +65,19 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     backgroundColor: "#d7f2f8",
-    alignItems: "center",
-    justifyContent: "center",
+  },
+  scroll: {
+    flex: 1,
+    width: "100%",
   },
   content: {
     width: "100%",
     maxWidth: 512,
+    alignSelf: "center",
     alignItems: "center",
     gap: 10,
+    paddingHorizontal: 16,
+    paddingBottom: 24,
   },
   presentation: {
     color: "midnightblue",
