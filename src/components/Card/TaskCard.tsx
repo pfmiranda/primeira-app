@@ -6,13 +6,23 @@ const TaskCard = ({
   id,
   title,
   isComplete,
+  priority,
   onToggle,
   onDelete,
   onPress,
 }: TaskCardProps) => {
+  const colorPriority =
+    priority === "High"
+      ? "darkred"
+      : priority === "Medium"
+        ? "darkorange"
+        : "mediumblue";
+
   return (
     <View style={styles.mainView}>
-      <TouchableOpacity style={styles.Taskcard} onPress={onPress}>
+      <TouchableOpacity
+        style={[styles.Taskcard, { backgroundColor: colorPriority }]}
+        onPress={onPress}>
         <Text
           numberOfLines={2}
           ellipsizeMode="tail"
@@ -20,6 +30,7 @@ const TaskCard = ({
           {title}
         </Text>
         <Checkbox
+          hitSlop={15}
           style={styles.checkbox}
           value={isComplete}
           onValueChange={onToggle}
@@ -38,7 +49,7 @@ const styles = StyleSheet.create({
   Taskcard: {
     flex: 1,
     minWidth: 150,
-    backgroundColor: "royalblue",
+    // backgroundColor: { colorPriority },
     borderRadius: 25,
     padding: 10,
     marginVertical: 5,
@@ -83,6 +94,7 @@ const styles = StyleSheet.create({
   },
   checkbox: {
     alignSelf: "center",
+    backgroundColor: "white",
   },
 });
 

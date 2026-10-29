@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { StyleSheet, View, TextInput, FlatList } from "react-native";
+import { StyleSheet, View, FlatList } from "react-native";
 import AppButton from "../../components/AppButton/appButton";
 import TaskCard from "../../components/Card/TaskCard";
 import Header from "../../components/header/header";
 import { type NativeStackScreenProps } from "@react-navigation/native-stack";
 import { type RootStackParamList } from "../../navigation/types";
 import { type Task, type Filter } from "./types";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "Tasks">;
 
@@ -16,7 +17,7 @@ const initalTasks = [
     title: "Arranjar fechadura da porta",
     description:
       "Necessário reajustar dimensões de entrada de trinco para que porta feche corretamente",
-    ownerEmail: "paulo.miranda@gmail.com",
+    priority: "High",
     isCompleted: false,
   },
 
@@ -25,7 +26,7 @@ const initalTasks = [
     title: "Reconfigurar home network",
     description:
       "Redesenhar toda a rede interna, garantindo boa perfomance em todos os locais.",
-    ownerEmail: "john.doe@gmail.com",
+    priority: "Medium",
     isCompleted: false,
   },
 
@@ -34,15 +35,25 @@ const initalTasks = [
     title: "Trocar puxadores do armário",
     description:
       "Necessário trocar puxadores antigos por novos para bater certo com os existentes.",
-    ownerEmail: "john.doe@gmail.com",
+    priority: "Low",
     isCompleted: true,
   },
 ] as Task[]; // Alternativa Task[]
 
 const TasksScreen = ({ navigation, route }: NavigationProps) => {
-  const [newTask, setNewTask] = useState("");
-  const [tasks, setTasks] = useState(initalTasks as Task[]); //Alternativa Array<Task>
+  const [tasks, setTasks] = useState<Task[]>(
+    route.params?.taskList ?? initalTasks,
+  ); //Alternativa Array<Task>
   const [cardFilter, setCardFilter] = useState("All" as Filter);
+
+  // se receber uma lista de tarefas por parâmetro, usa essa; senão mantém a inicial
+  const [prevParams, setPrevParams] = useState(route.params);
+  if (route.params !== prevParams) {
+    setPrevParams(route.params);
+    if (route.params?.taskList) {
+      setTasks(route.params.taskList);
+    }
+  }
 
   // console.log("Contador: ", counter); //logar para consola o contador
   const visibleTasks = () => {
@@ -56,8 +67,8 @@ const TasksScreen = ({ navigation, route }: NavigationProps) => {
     return tasks;
   };
   return (
-    <View style={styles.mainContainer}>
-      {/*  <ScrollView showsVerticalScrollIndicator={true}>*/}
+    <SafeAreaView style={styles.mainContainer} edges={["top"]}>
+      {/*<ScrollView showsVerticalScrollIndicator>*/}
       <View style={styles.headerArea}>
         <Header
           title="Primeira App"
@@ -65,34 +76,20 @@ const TasksScreen = ({ navigation, route }: NavigationProps) => {
           goBack={() => navigation.goBack()}
         />
       </View>
-
+      <View style={styles.newTaskView}>
+        <AppButton
+          title="Inserir nova tarefa"
+          onPress={() => {
+            navigation.navigate("NewTask", { taskList: tasks });
+          }}
+        />
+      </View>
       <View style={styles.filterView}>
         <AppButton title="Todas" onPress={() => setCardFilter("All")} />
         <AppButton title="Pendentes" onPress={() => setCardFilter("Pending")} />
         <AppButton title="Concluídas" onPress={() => setCardFilter("Done")} />
       </View>
-      <View style={styles.newTaskView}>
-        <TextInput
-          style={styles.newTaskInput}
-          value={newTask}
-          onChangeText={(text) => setNewTask(text)}
-          placeholder="Digite o título da tarefa"
-        />
-        <AppButton
-          title="Inserir Tarefa"
-          onPress={() => {
-            const newTaskObject = {
-              id: String(tasks.length + 1),
-              title: newTask,
-              isCompleted: false,
-            } as Task;
-            if (newTask.length > 0) {
-              setTasks([...tasks, newTaskObject]);
-            }
-            setNewTask("");
-          }}
-        />
-      </View>
+
       <FlatList
         style={styles.list}
         contentContainerStyle={styles.listContent}
@@ -103,6 +100,7 @@ const TasksScreen = ({ navigation, route }: NavigationProps) => {
           <TaskCard
             id={task.id}
             title={task.title}
+            priority={task.priority}
             isComplete={task.isCompleted}
             onPress={() => navigation.navigate("TaskDetail", { task: task })}
             onDelete={() => {
@@ -118,21 +116,17 @@ const TasksScreen = ({ navigation, route }: NavigationProps) => {
           />
         )}
       />
-      <View style={styles.buttonsView}>
-        <AppButton title="Voltar" onPress={() => navigation.goBack()} />
-        <AppButton title="Home" onPress={() => navigation.popToTop()} />
-      </View>
-
-      {/* </ScrollView> */}
-    </View>
+      {/*</SafeAreaView>]  </ScrollView>*/}
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     gap: 10,
-    backgroundColor: "#d7f2f8",
+    backgroundColor: "#d8d8d8",
     alignItems: "center",
+    padding: 10,
   },
   filterView: {
     flexDirection: "row",
@@ -141,26 +135,20 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     gap: 10,
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 12,
   },
   newTaskView: {
-    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
     maxWidth: 512,
     alignSelf: "center",
     gap: 10,
-  },
-  newTaskInput: {
-    flex: 1,
     backgroundColor: "white",
-    borderWidth: 1,
-    borderColor: "grey",
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    marginTop: 10,
-    fontSize: 16,
+    padding: 20,
+    borderRadius: 12,
   },
 
   headerArea: {
@@ -169,19 +157,16 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   list: {
-    flex: 1,
     width: "100%",
     maxWidth: 512,
     alignSelf: "center",
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 12,
+    flexGrow: 0,
   },
   listContent: {
     paddingHorizontal: 12,
-  },
-
-  buttonsView: {
-    flexDirection: "row",
-    margin: 10,
-    gap: 10,
   },
 });
 
