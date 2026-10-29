@@ -1,10 +1,11 @@
-import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
+import { StyleSheet, Text, Image, ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import AppButton from "../../components/AppButton/appButton";
 import { useState } from "react";
 import { type NativeStackScreenProps } from "@react-navigation/native-stack";
 import { type RootStackParamList } from "../../navigation/types";
 import Header from "../../components/header/header";
+import { SafeAreaView } from "react-native-safe-area-context";
 //import { Lucide } from "@react-native-vector-icons/lucide";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "Home">;
@@ -16,8 +17,8 @@ const HomeScreen = ({ navigation, route }: NavigationProps) => {
   //console.log(counter);
 
   return (
-    <View style={styles.mainContainer}>
-      <StatusBar />
+    <SafeAreaView style={styles.mainContainer} edges={["top"]}>
+      <StatusBar style="dark" />
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.content}
@@ -43,7 +44,7 @@ const HomeScreen = ({ navigation, route }: NavigationProps) => {
           style={styles.bigImage}
           source={require("../../../assets/cat.jpeg")}
         />
-        <Text style={styles.counter}>{counter}</Text>
+        <Text style={styles.counter}>{counter} Cliques</Text>
         <AppButton
           title="Clique Aqui"
           onPress={() => setCounter(counter + 1)}
@@ -53,12 +54,8 @@ const HomeScreen = ({ navigation, route }: NavigationProps) => {
           title="Ver Tarefas"
           onPress={() => navigation.navigate("Tasks")}
         />
-        <AppButton
-          title="Perfil"
-          onPress={() => navigation.navigate("Profile")}
-        />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
@@ -72,7 +69,7 @@ const styles = StyleSheet.create({
   },
   content: {
     width: "100%",
-    maxWidth: 512,
+    //maxWidth: 512,
     alignSelf: "center",
     alignItems: "center",
     gap: 10,

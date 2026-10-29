@@ -101,7 +101,8 @@ const styles = StyleSheet.create({
   },
 
   profileView: {
-    margin: 15,
+    marginHorizontal: 15,
+    padding: 5,
 
     borderWidth: 1,
     borderRadius: 18,
